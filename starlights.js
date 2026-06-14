@@ -5,6 +5,7 @@ const cheerio = require('cheerio')
 const { sizeFormatter } = require('human-readable')
 const crypto = require('crypto')
 const translate = require('translate-google-api')
+const fg = require('fg-senna')
 
 async function aptoidedl(text) {
 try {
@@ -1255,7 +1256,39 @@ async function getFileSize(url) {
   }
 }
 
+async function ytmp3(link) {
+    try {
+        // Usamos fg.yta para obtener el audio de YouTube
+        let { title, size, quality, thumb, dl_url: url2 } = await fg.yta(link)
+
+        // Acortamos el enlace de descarga y la miniatura como en el resto de tus funciones
+        let dl_url = await shortenUrl(url2)
+        let thumbnail = await shortenUrl(thumb)
+        let starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
+
+        return { starlights, title, size, quality, thumbnail, dl_url }
+    } catch {
+        // Manejo de errores silencioso como en tu código original
+    }
+}
+
 async function ytmp4(link) {
+    try {
+        // Usamos fg.ytv para obtener el video de YouTube
+        let { title, size, quality, thumb, dl_url: url2 } = await fg.ytv(link)
+
+        // Acortamos el enlace de descarga y la miniatura como en el resto de tus funciones
+        let dl_url = await shortenUrl(url2)
+        let thumbnail = await shortenUrl(thumb)
+        let starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
+
+        return { starlights, title, size, quality, thumbnail, dl_url }
+    } catch {
+        // Manejo de errores silencioso como en tu código original
+    }
+}
+
+/*async function ytmp4(link) {
     try {
         const result = await dl2(link)
         const xd = result.result.mp4.url
@@ -1289,7 +1322,7 @@ async function ytmp3(link) {
         return { starlights, title, size, quality, thumbnail, dl_url }
     } catch {
     }
-}
+}*/
 
 async function search(query, options = {}) {
   let search = await yts.search({ query, hl: "es", gl: "ES", ...options })
@@ -1311,7 +1344,8 @@ async function dl2(url) {
     };
 
     try {
-        const res = await fetch(`https://p.savenow.to/ajax/download.php?copyright=0&format=480&url=${url}&api=dfcb6d76f2f6a9894gjkege8a4ab232222`, { headers });
+        const res = await fetch(`https://p.savenow.to/api/v2/download?format=480&url=${url}&apikey=dfcb6d76f2f6a9894gjkege8a4ab232222`, { headers });
+        
         const data = await res.json();
 
         const maxAttempts = 100;
@@ -1360,7 +1394,7 @@ async function dl(url) {
     };
 
     try {
-        const res = await fetch(`https://p.savenow.to/ajax/download.php?copyright=0&format=mp3&url=${url}&api=dfcb6d76f2f6a9894gjkege8a4ab232222`, { headers });
+        const res = await fetch(`https://p.savenow.to/api/v2/download?format=mp3&url=${url}&apikey=dfcb6d76f2f6a9894gjkege8a4ab232222`, { headers });
         const data = await res.json();
 
         const maxAttempts = 100;
