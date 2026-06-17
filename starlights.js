@@ -6,6 +6,7 @@ const { sizeFormatter } = require('human-readable')
 const crypto = require('crypto')
 const translate = require('translate-google-api')
 const fg = require('fg-senna')
+const { ytmp3: ytdlmp3 } = require('@hiudyy/ytdl')
 
 async function aptoidedl(text) {
 try {
@@ -1257,19 +1258,40 @@ async function getFileSize(url) {
 }
 
 async function ytmp3(link) {
+    const starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
+
     try {
-        // Usamos fg.yta para obtener el audio de YouTube
-        let { title, size, quality, thumb, dl_url: url2 } = await fg.yta(link)
+        let { dl_url: url } = await fg.yta(link)
+        return { starlights, dl_url: url }
+    } catch {}
+    try {
+        let url = await ytmod(link)
+        return { starlights, dl_url: url }
+    } catch {}
+    try {
+        let url = await ytapi(link)
+        return { starlights, dl_url: url }
+    } catch {}
+    throw new Error('No se pudo obtener el enlace de descarga')
+}
 
-        // Acortamos el enlace de descarga y la miniatura como en el resto de tus funciones
-        let dl_url = await shortenUrl(url2)
-        let thumbnail = await shortenUrl(thumb)
-        let starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
+async function ytmod(url) {
+  const result = await ytdlmp3(url)
 
-        return { starlights, title, size, quality, thumbnail, dl_url }
-    } catch {
-        // Manejo de errores silencioso como en tu código original
-    }
+  return typeof result === 'string'
+    ? result
+    : result.url || result.download || result.dl || result
+}
+
+async function ytapi(url) {
+  const res = await fetch(
+    `https://www.sankavollerei.com/download/ytmp3?apikey=planaai&url=${encodeURIComponent(url)}`
+  )
+  const json = await res.json()
+  if (!json?.result?.download) {
+    throw new Error('No se obtuvo enlace de descarga')
+  }
+  return json.result.download
 }
 
 async function ytmp4(link) {
