@@ -1261,18 +1261,27 @@ async function ytmp3(link) {
     const starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
 
     try {
-        let { dl_url: url } = await fg.yta(link)
-        return { starlights, dl_url: url }
+        let { dl_url } = await fg.yta(link)
+
+        return { starlights, dl_url }
     } catch {}
+
     try {
-        let url = await ytmod(link)
-        return { starlights, dl_url: url }
+        let dl_url = await ytmod(link)
+
+        if (Buffer.isBuffer(dl_url))
+            return { starlights, buffer: dl_url }
+
+        return { starlights, dl_url }
     } catch {}
+
     try {
-        let url = await ytapi(link)
-        return { starlights, dl_url: url }
+        let dl_url = await ytapi(link)
+
+        return { starlights, dl_url }
     } catch {}
-    throw new Error('No se pudo obtener el enlace de descarga')
+
+    throw new Error('No se pudo obtener el audio')
 }
 
 async function ytmod(url) {
