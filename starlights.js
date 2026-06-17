@@ -1267,15 +1267,6 @@ async function ytmp3(link) {
     } catch {}
 
     try {
-        let dl_url = await ytmod(link)
-
-        if (Buffer.isBuffer(dl_url))
-            return { starlights, buffer: dl_url }
-
-        return { starlights, dl_url }
-    } catch {}
-
-    try {
         let dl_url = await ytapi(link)
 
         return { starlights, dl_url }
