@@ -5,8 +5,6 @@ const cheerio = require('cheerio')
 const { sizeFormatter } = require('human-readable')
 const crypto = require('crypto')
 const translate = require('translate-google-api')
-const fg = require('fg-senna')
-const { ytmp3: ytdlmp3 } = require('@hiudyy/ytdl')
 
 async function aptoidedl(text) {
 try {
@@ -1261,26 +1259,12 @@ async function ytmp3(link) {
     const starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
 
     try {
-        let { dl_url } = await fg.yta(link)
-
-        return { starlights, dl_url }
-    } catch {}
-
-    try {
         let dl_url = await ytapi(link)
 
         return { starlights, dl_url }
     } catch {}
 
     throw new Error('No se pudo obtener el audio')
-}
-
-async function ytmod(url) {
-  const result = await ytdlmp3(url)
-
-  return typeof result === 'string'
-    ? result
-    : result.url || result.download || result.dl || result
 }
 
 async function ytapi(url) {
