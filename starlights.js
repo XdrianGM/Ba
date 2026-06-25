@@ -1,4 +1,3 @@
-const { mediafiredl, googleImage } = require('@bochilteam/scraper')
 const yts = require('yt-search')
 const axios = require('axios')
 const cheerio = require('cheerio')
@@ -583,26 +582,6 @@ return { starlights, msg }
 } catch {
 }}
 
-async function GoogleImage(query) {
-  try {
-    const url2 = await (await googleImage(query)).getRandom()
-   const dl_url = await shortenUrl(url2)
-   let starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
-    return { starlights, dl_url }
-  } catch {
-  }
-}
-
-async function rule34(query) {
-  try {
-    const url2 = await (await googleImage('rule34 ' + query)).getRandom()
-   const dl_url = await shortenUrl(url2)
-   let starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
-    return { starlights, dl_url }
-  } catch {
-  }
-}
-
 async function GDriveDl(link) {
 	try {
 		let res = await GDriveDl2(link)
@@ -730,19 +709,6 @@ async function mediafiredl2(url) {
     console.error(error);
     return { status: false, msg: 'No result found' };
   }
-}
-
-async function mediafire(link) {
-    try {
-        let res = await mediafiredl(link)
-        let { url, filename, ext, aploud, filesizeH } = res
-        let dl_url = await shortenUrl(url)
-        let title = filename
-        let size = filesizeH
-        let starlights = 'Scraper By Starlights Team ( https://github.com/StarlightsTeam ) - おDanịel.xyz'
-        return { starlights, title, ext, aploud, size, dl_url }
-    } catch (error) {
-    }
 }
 
 async function aptoide(text) {
@@ -2032,4 +1998,4 @@ function formatNumber(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-module.exports = { aptoide, aptoidedl, aptoideSearch, characterAi, danbooru, fbdl, kwaidl, GDriveDl, GoogleImage, igdl, igstalk, mediafire, mediafireV2, Nationality, openAi, ChatGpt, ChatGptV2, rule34, tiktokdl, tiktokdlV2, tiktokuser, tiktokStalk, tiktokvid, tiktokSearch, spotifySearch, spotify, spotifydl, pinterest, pinterestdl, ppcouple, xnxxdl, xvideosdl, ytsearch, ytmp3, ytmp4 }
+module.exports = { aptoide, aptoidedl, aptoideSearch, characterAi, danbooru, fbdl, kwaidl, GDriveDl, igdl, igstalk, mediafireV2, Nationality, openAi, ChatGpt, ChatGptV2, tiktokdl, tiktokdlV2, tiktokuser, tiktokStalk, tiktokvid, tiktokSearch, spotifySearch, spotify, spotifydl, pinterest, pinterestdl, ppcouple, xnxxdl, xvideosdl, ytsearch, ytmp3, ytmp4 }
